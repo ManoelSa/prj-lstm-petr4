@@ -1,0 +1,6 @@
+.env
+.venv/
+venv/
+tests/
+__pycache__/
+create_structure.py

@@ -3,16 +3,14 @@ import random
 import numpy as np
 import torch
 import pytorch_lightning as pl
+import mlflow 
+import joblib 
 from pytorch_lightning.callbacks import ModelCheckpoint, LearningRateMonitor
 from pytorch_lightning.loggers import MLFlowLogger 
-import mlflow 
 from dotenv import load_dotenv
-
-# Importação dos novos módulos PyTorch/Lightning
 from app.model.lstm_light_module import LSTMLightModule
 from app.data.data_pipeline import DataPipeline 
 from app.utils.helpers import evaluate_predictions 
-import joblib 
 
 # Importações de Configurações
 from app.config.settings import (
@@ -68,7 +66,7 @@ if __name__ == "__main__":
         mlflow.log_param('data_time_step', TIME_STEP)
     # --------------------------------------------------------------------------
     
-    # --- 2. Preparação do DataPipeline (Substitui load_and_preprocess_data) ---
+    # --- 2. Preparação do DataPipeline ---
     data_pipeline = DataPipeline(
         time_step=TIME_STEP,
         test_size_ratio=TEST_SIZE_RATIO,
@@ -76,7 +74,6 @@ if __name__ == "__main__":
         scaler_path=SCALER_PATH
     )
     
-    # O trainer.fit chamará data_pipeline.prepare_data() automaticamente
     # --- 3. Configuração do Modelo e Hiperparâmetros ---
     hparams = {
         'input_size': 1, 
@@ -105,11 +102,11 @@ if __name__ == "__main__":
         callbacks=[checkpoint_callback, LearningRateMonitor(logging_interval='epoch')],
     )
 
-    # --- 5. Treinamento (Substitui modelo.fit) ---
+    # --- 5. Treinamento ---
     print(f"\n--- REQ: 2.2 Treinamento ({EPOCHS} Epochs) ---")
     trainer.fit(modelo_pl, datamodule=data_pipeline)
     
-    # --- 6. Avaliação (Substitui modelo.evaluate e modelo.predict) ---
+    # --- 6. Avaliação ---
     print("\n--- REQ: 2.3 Avaliação e Predição ---")
     test_results = trainer.test(ckpt_path='best', datamodule=data_pipeline)
 

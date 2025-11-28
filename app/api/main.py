@@ -1,7 +1,7 @@
 import os
 import joblib
 import contextlib 
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, Request
 from starlette.responses import Response
 from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
 from datetime import datetime
@@ -18,7 +18,7 @@ from app.api import state
 @contextlib.asynccontextmanager
 async def lifespan_startup_shutdown(app: FastAPI):
     """
-    Função Lifespan (Substitui on_event). Carrega o modelo e o scaler na inicialização
+    Função Lifespan. Carrega o modelo e o scaler na inicialização
     e gerencia o desligamento (shutdown), preenchendo as variáveis no módulo state.
     """
     print("Iniciando carregamento do Scaler e Modelo PyTorch...")
@@ -78,7 +78,7 @@ app = FastAPI(
 @app.middleware("http")
 async def prometheus_middleware(request: Request, call_next):
     """
-    Middleware que rastreia o tempo e o status de cada requisição (Requisito 5).
+    Middleware que rastreia o tempo e o status de cada requisição.
     """
     start_time = datetime.now()
     endpoint = request.url.path

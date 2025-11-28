@@ -9,7 +9,7 @@ from app.config.settings import TIME_STEP, TICKER
 from app.config.security import verify_token
 
 # Importa o módulo de estado que contém as variáveis globais carregadas (MODEL, SCALER)
-from app import state 
+from app.api import state 
 
 logger = logging.getLogger(__name__)
 

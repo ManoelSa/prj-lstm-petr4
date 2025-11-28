@@ -9,10 +9,10 @@ from datetime import datetime
 # Importações dos artefatos
 from app.config.settings import SCALER_PATH, MODEL_DIR
 from app.model.lstm_light_module import LSTMLightModule
-from app.router import prediction_router
+from app.api.router import prediction_router
 from app.config import security
 # Importa o módulo de estado que contém as variáveis globais e métricas
-from app import state 
+from app.api import state 
 
 # --- 1. FUNÇÃO LIFESPAN: Carregamento e Desligamento de Recursos ---
 @contextlib.asynccontextmanager

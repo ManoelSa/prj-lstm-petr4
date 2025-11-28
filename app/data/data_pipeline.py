@@ -13,7 +13,6 @@ class DataPipeline(pl.LightningDataModule):
     """
     DataPipeline (LightningDataModule) para PyTorch Lightning.
     Gerencia o download, pré-processamento, divisão e fornecimento de DataLoaders.
-    Equivalente à função 'load_and_preprocess_data()' do código TensorFlow.
     """
     def __init__(self, time_step: int, test_size_ratio: float, batch_size: int, scaler_path: str):
         """
@@ -48,7 +47,6 @@ class DataPipeline(pl.LightningDataModule):
         # --- LÓGICA DE FLAG: Evita a coleta de dados duplicada ---
         if self.data_prepared:
             return
-        # --------------------------------------------------------
 
         print(f"--- 1. Coletando dados para {TICKER} ---")
         end_date = datetime.now().strftime('%Y-%m-%d')
@@ -63,6 +61,7 @@ class DataPipeline(pl.LightningDataModule):
 
         # 1. Seleção da feature e Escalamento
         dados_fechamento = dados_originais[['Close']].copy()
+        # Scaler: normaliza os dados para a faixa [0, 1] e melhora o desempenho do modelo
         self.scaler = MinMaxScaler(feature_range=(0, 1)) 
         dados_escalonados = self.scaler.fit_transform(dados_fechamento['Close'].values.reshape(-1, 1))
 
@@ -78,7 +77,7 @@ class DataPipeline(pl.LightningDataModule):
         self.Y_treino, self.Y_val = Y[0:train_size], Y[train_size:train_val_size]
         self.X_teste, self.Y_teste = X[train_val_size:len(X)], Y[train_val_size:len(Y)]
 
-        # 4. Salvamento do Scaler
+        # 4. Salvamento do Scaler (Requisito 3)
         os.makedirs(MODEL_DIR, exist_ok=True)
         joblib.dump(self.scaler, self.scaler_path)
         print(f"Scaler salvo em: {self.scaler_path}")

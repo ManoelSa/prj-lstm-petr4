@@ -15,7 +15,7 @@ DROPOUT_RATE = 0.2
 LEARNING_RATE = 0.001 # Taxa de aprendizado Adam
 
 
-# --- Caminhos dos Arquivos (Nova Estrutura 'artifacts') ---
+# --- Caminhos dos Arquivos ---
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Diretório base para todos os artefatos gerados (modelos e scalers)
@@ -26,13 +26,12 @@ os.makedirs(ARTIFACTS_DIR, exist_ok=True)
 MODEL_DIR = os.path.join(ARTIFACTS_DIR, "checkpoints") 
 os.makedirs(MODEL_DIR, exist_ok=True)
 
-# Caminho para o Scaler (essencial para o deploy)
+# Caminho para o Scaler
 SCALER_PATH = os.path.join(ARTIFACTS_DIR, "scaler.pkl")
 
 
 # --- Configuração MLflow---
-# Local onde os experimentos serão rastreados. Padrão: local 'mlruns' dentro de ARTIFACTS_DIR
-#MLFLOW_TRACKING_URI = os.path.join(ARTIFACTS_DIR, "mlruns")
+# Local onde os experimentos serão rastreados.
 MLFLOW_DB_PATH = os.path.join(ARTIFACTS_DIR, "mlflow.db")
 MLFLOW_TRACKING_URI = f"sqlite:///{MLFLOW_DB_PATH}"
 

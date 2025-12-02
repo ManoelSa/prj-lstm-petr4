@@ -1,0 +1,9 @@
+global:
+  scrape_interval: 10s  # frequência de coleta
+
+scrape_configs:
+  # Coleta das métricas da API FastAPI
+  - job_name: "api_petr4_lstm"
+    metrics_path: "/metrics"
+    static_configs:
+      - targets: ["host.docker.internal:8000"]

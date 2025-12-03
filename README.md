@@ -97,7 +97,6 @@ A arquitetura segue o princípio de **serviços desacoplados**, separando **trei
 
 - **GET `/metrics`** expõe métricas de latência e contagem de requisições.
 - O SLA pode ser acompanhado via Prometheus/Grafana.
-- O modelo está pronto para futura **quantização** (redução de latência).
 
 ---
 
@@ -132,6 +131,9 @@ Você pode rodar tudo manualmente ou simplesmente utilizar o script **start_ambi
   - Host Prometheus: http://localhost:9090/targets
 - Inicia o servidor FastAPI (Uvicorn)
   - Host API: http://127.0.0.1:8000/docs
+
+Obs.: Para executar o script **start_ambiente.py** é importante seguir primeiro os passos abaixo.
+
 ### 🚀 Passos para Execução Local
 
 ```bash
@@ -149,10 +151,27 @@ pip install -r requirements.txt
 # 4. Execute o pipeline de treinamento
 python train.py
 # Saída esperada: O modelo será treinado por 50 épocas e os artefatos serão salvos em 'artifacts/'
-
-# 6. Inicie o servidor Uvicorn (usando o módulo 'api.main')
-uvicorn api.main:app --reload
-# Saída esperada: O servidor irá iniciar e carregar o modelo PyTorch com sucesso.
-
-
 ```
+## 🔎 Análise de Experimentos com MLflow
+
+Após iniciar os steps atenteriores, é hora de explorar, começando com interface do MLflow:
+-  Execute: `mlflow ui --backend-store-uri sqlite:///app/artifacts/mlflow.db`
+- Host: `http://127.0.0.1:5000/`
+
+Utilize os seguintes pontos para analisar a performance e a rastreabilidade do modelo:
+
+### 1. Rastreamento e Reprodutibilidade (Parâmetros)
+
+Ao clicar no ID de uma **Run (Execução)**, o primeiro foco é na seção **Parâmetros**.
+
+* **Verificação de Hiperparâmetros:** Confirme que os parâmetros do modelo (`hidden_size`, `dropout_rate`, `learning_rate`) e do treino (`epochs`, `batch_size`) foram logados automaticamente pelo PyTorch Lightning.
+* **Verificação de Parâmetros de Dados:** Procure os logs manuais (`data_ticker`, `data_time_step`, `data_start_date`). **Estes comprovam a rastreabilidade:** possibilitando saber exatamente com quais configurações e dados o modelo foi treinado.
+
+### 2. Análise de Desempenho (Métricas)
+
+Utilize a seção **Métricas** para avaliar a qualidade do modelo ao longo do tempo.
+
+* **Curva de `val_loss` (Perda de Validação):** Este é o gráfico mais importante. A curva deve cair de forma consistente e depois se estabilizar. Se a curva começar a subir, indica **overfitting** (o modelo está memorizando o treino e perdendo a capacidade de generalização).
+* **Métrica de Produção (`test_mae`):** Verifique o valor final do `test_mae` (Mean Absolute Error). Este valor, que é uma **métrica escalonada**, deve ser baixo. Ele se correlaciona diretamente com o **MAE em R$** calculado na etapa final do `train.py`.
+
+A interface do **MLflow** atua como o Registro de Experimentos (Model Registry), fornecendo um histórico completo para auditoria e garantindo que o modelo seja rastreável e auditável.

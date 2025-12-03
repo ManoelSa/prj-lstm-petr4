@@ -193,3 +193,9 @@ Apesar da automação, ainda é necessário realizar duas configurações manuai
     * Vá para `Dashboards` -> `New` -> `Import`.
     * Selecione o JSON do seu dashboard (localizado na pasta `metrics/`).
     * Na importação, estabeleça um nome e uma pasta para seu dashboard, e fim, pronto para uso.
+  
+---
+
+---
+
+> ℹ️ **Aviso:** Esta API e o modelo LSTM têm fins **educacionais e de pesquisa**. O conteúdo gerado não deve ser utilizado como base para decisões financeiras ou de investimento.

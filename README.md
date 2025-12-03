@@ -196,6 +196,4 @@ Apesar da automação, ainda é necessário realizar duas configurações manuai
   
 ---
 
----
-
 > ℹ️ **Aviso:** Esta API e o modelo LSTM têm fins **educacionais e de pesquisa**. O conteúdo gerado não deve ser utilizado como base para decisões financeiras ou de investimento.

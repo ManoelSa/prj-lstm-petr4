@@ -175,3 +175,21 @@ Utilize a seção **Métricas** para avaliar a qualidade do modelo ao longo do t
 * **Métrica de Produção (`test_mae`):** Verifique o valor final do `test_mae` (Mean Absolute Error). Este valor, que é uma **métrica escalonada**, deve ser baixo. Ele se correlaciona diretamente com o **MAE em R$** calculado na etapa final do `train.py`.
 
 A interface do **MLflow** atua como o Registro de Experimentos (Model Registry), fornecendo um histórico completo para auditoria e garantindo que o modelo seja rastreável e auditável.
+
+
+## 📊 Monitoramento em Grafana (Análise de Produção)
+
+Para analisar a saúde do serviço (SLA) e a efetividade do modelo, utilizamos o Prometheus e o Grafana, habilitados nos passos anteriores.
+
+Apesar da automação, ainda é necessário realizar duas configurações manuais no Grafana:
+
+1.  **Conexão do Data Source (Prometheus):**
+    * Acesse o Grafana (`http://localhost:3000`).
+    * Vá para **Data Sources** e adicione o Prometheus.
+    * No campo **URL**, utilize o endereço do serviço: `http://host.docker.internal:9090` (Este é o endereço que permite ao Grafana acessar o Prometheus que está rodando no contêiner).
+    * Clique em "Save & Test".
+
+2.  **Importação do Dashboard:**
+    * Vá para `Dashboards` -> `New` -> `Import`.
+    * Selecione o JSON do seu dashboard (localizado na pasta `metrics/`).
+    * Na importação, estabeleça um nome e uma pasta para seu dashboard, e fim, pronto para uso.

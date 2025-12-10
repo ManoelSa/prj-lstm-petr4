@@ -121,7 +121,7 @@ prj-lstm-petr4/
 ```
 ## 💻 Execução Local (Windows + Docker + API + Monitoramento)
 Esta aplicação faz uso de Prometheus e Grafana para monitoramento em tempo real.
-No Windows, é necessário utilizar o Docker Desktop para subir os contêineres automaticamente.
+Para uma reprodução no Windows, é necessário utilizar o Docker Desktop para subir os contêineres automaticamente.
 Você pode rodar tudo manualmente ou simplesmente utilizar o script **start_ambiente.py**, que:
 - Inicia o Docker Desktop
   - Importante já constar instalado, Baixe em: https://www.docker.com/products/docker-desktop/ 
